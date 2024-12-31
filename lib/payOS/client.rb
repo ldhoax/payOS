@@ -40,7 +40,7 @@ module PayOS
       case response.status
       when 200
         response_obj = Models::Response.new(response.body, @config.checksum_secret)
-        # response_obj.verify_signature!
+        response_obj.verify_signature!
         response_obj
       when 429
         raise RateLimitError, "Rate limit exceeded. Please try again later."

@@ -19,7 +19,7 @@ module PayOS
       end
 
       def verify_signature!
-        return true if @data.nil?
+        return true if @data.nil? || @data['signature'].nil?
         
         # Remove signature from data before verification
         data_without_signature = @data.reject { |k, _| k == 'signature' }
