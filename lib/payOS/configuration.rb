@@ -1,11 +1,12 @@
 module PayOS
   class Configuration
-    attr_accessor :client_id, :api_key, :checksum_secret
+    attr_accessor :client_id, :api_key, :checksum_secret, :partner_code
 
     def initialize
       @client_id = nil
       @api_key = nil
       @checksum_secret = nil
+      @partner_code = nil
     end
 
     def validate!

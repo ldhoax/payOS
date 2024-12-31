@@ -21,7 +21,41 @@ PayOS.configure do |config|
   config.client_id = ENV['CLIENT_ID']
   config.api_key = ENV['API_KEY']
   config.checksum_secret = ENV['CHECKSUM_SECRET']
+  # Optional: config.partner_code = ENV['PARTNER_CODE']
 end
+```
+
+### Creating a Payment URL
+
+To create a payment URL, use the `create_payment_url` method:
+
+```ruby
+payment_params = {
+  amount: 123,
+  cancelUrl: "https://your-domain.com/cancel-webhook-path",
+  description: "description",
+  orderCode: "4573928465",
+  returnUrl: "https://your-domain.com/success-webhook-path",
+  ... other params
+}
+
+payment_url = PayOS.create_payment_url(payment_params)
+```
+
+### Getting Payment Information
+
+To retrieve information about a payment:
+
+```ruby
+payment_info = PayOS.get_payment_info('4573928465')
+```
+
+### Canceling a Payment
+
+To cancel a payment:
+
+```ruby
+PayOS.cancel_payment('4573928465')
 ```
 
 ## Development
