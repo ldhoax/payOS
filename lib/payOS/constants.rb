@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module PayOS
-  BASE_URL = 'https://api-merchant.payos.vn'.freeze
-  API_VERSION = 'v2'.freeze
-  PAYMENT_URL_PATH = 'payment-requests'.freeze
+  BASE_URL = "https://api-merchant.payos.vn"
+  API_VERSION = "v2"
+  PAYMENT_URL_PATH = "payment-requests"
 end

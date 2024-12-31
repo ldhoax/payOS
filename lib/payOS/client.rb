@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 module PayOS
   class Client
     def initialize(config)
       @config = config
       @http_client = Faraday.new(url: BASE_URL) do |faraday|
         # Set default headers
-        faraday.headers['Content-Type'] = 'application/json'
-        faraday.headers['x-client-id'] = config.client_id
-        faraday.headers['x-api-key'] = config.api_key
-        faraday.headers['x-partner-code'] = config.partner_code
+        faraday.headers["Content-Type"] = "application/json"
+        faraday.headers["x-client-id"] = config.client_id
+        faraday.headers["x-api-key"] = config.api_key
+        faraday.headers["x-partner-code"] = config.partner_code
 
         # Add middleware for JSON parsing
         faraday.request :json
@@ -25,7 +27,7 @@ module PayOS
       response = @http_client.post(path) do |req|
         req.body = payload.to_json
       end
-      
+
       handle_response(response)
     end
 

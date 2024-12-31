@@ -6,3 +6,23 @@ Style/StringLiterals:
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
+
+Naming/FileName:
+  Exclude:
+    - 'lib/payOS.rb'
+    - 'spec/payOS_spec.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false

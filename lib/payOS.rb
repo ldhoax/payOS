@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'faraday'
-require 'json'
+require "faraday"
+require "json"
 
 require_relative "payOS/version"
 require_relative "payOS/configuration"
@@ -12,10 +12,10 @@ require_relative "payOS/services/payment_url"
 
 module PayOS
   class Error < StandardError; end
-  
+
   class << self
     attr_accessor :configuration
-    
+
     def client
       @client ||= Client.new(configuration)
     end

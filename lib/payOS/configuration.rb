@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PayOS
   class Configuration
     attr_accessor :client_id, :api_key, :checksum_secret, :partner_code
