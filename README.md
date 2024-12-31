@@ -34,7 +34,7 @@ payment_params = {
   amount: 123,
   cancelUrl: "https://your-domain.com/cancel-webhook-path",
   description: "description",
-  orderCode: "4573928465",
+  orderCode: 4573928465,
   returnUrl: "https://your-domain.com/success-webhook-path",
   ... other params
 }
