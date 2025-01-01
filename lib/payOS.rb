@@ -28,18 +28,21 @@ module PayOS
   def self.configure
     self.configuration ||= Configuration.new
     yield(configuration) if block_given?
-    configuration.validate!
+    # configuration.validate!
   end
 
   def self.create_payment_url(params)
+    configuration.validate!
     payment_service.create(params)
   end
 
   def self.get_payment_info(payment_url_id)
+    configuration.validate!
     payment_service.get_info(payment_url_id)
   end
 
   def self.cancel_payment(payment_url_id)
+    configuration.validate!
     payment_service.cancel(payment_url_id)
   end
 end
