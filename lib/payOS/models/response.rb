@@ -23,25 +23,9 @@ module PayOS
       def verify_signature!
         return true if @data.nil? || @data["signature"].nil?
 
-        # Remove signature from data before verification
-        data_without_signature = @data.reject { |k, _| k == "signature" }
+        string_to_sign = Utils::Formater.params_to_string(@data.reject { |k, _| k == "signature" })
 
-        # Sort parameters alphabetically and create string to verify
-        string_to_verify = data_without_signature.sort.to_h
-                                                 .map { |k, v| "#{k}=#{v}" }
-                                                 .join("&")
-
-        # Generate signature
-        expected_signature = OpenSSL::HMAC.hexdigest(
-          "SHA256",
-          @checksum_secret,
-          string_to_verify
-        )
-
-        return true if expected_signature == @signature
-
-        raise SignatureVerificationError,
-              "Invalid signature!"
+        Utils::Signature.verify!(string_to_sign, @checksum_secret, @signature)
       end
     end
   end

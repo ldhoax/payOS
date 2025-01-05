@@ -22,20 +22,17 @@ module PayOS
         @client.post("#{PayOS::API_VERSION}/#{PayOS::PAYMENT_URL_PATH}/#{payment_url_id}/cancel", {})
       end
 
+      def confirm_webhook(webhook_url)
+        @client.post(PayOS::CONFIRM_WEBHOOK_PATH, { "webhookUrl" => webhook_url })
+      end
+
       private
 
       def params_with_signature(params)
-        # Generate signature from the formatted params
-        formatted_params = params.sort_by { |key, _| key.to_s }.map do |key, value|
-          formatted_key = key.to_s.split("_").map.with_index do |word, i|
-            i.zero? ? word : word.capitalize
-          end.join
-          [formatted_key, value]
-        end.to_h
+        formatted_params = Utils::Formater.format_params(params)
+        string_to_sign = Utils::Formater.params_to_string(formatted_params)
 
-        formatted_params["signature"] = Utils::Signature.generate(formatted_params.map do |k, v|
-          "#{k}=#{v}"
-        end.join("&"), PayOS.configuration.checksum_secret)
+        formatted_params["signature"] = Utils::Signature.generate(string_to_sign, PayOS.configuration.checksum_secret)
 
         formatted_params
       end

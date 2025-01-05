@@ -42,4 +42,16 @@ module PayOS
   def self.cancel_payment(payment_url_id)
     payment_service.cancel(payment_url_id)
   end
+
+  def self.confirm_webhook(webhook_url)
+    payment_service.confirm_webhook(webhook_url)
+  end
+
+  def self.verify_request!(request_source, data)
+    raise ForbiddenError if request_source != PayOS::BASE_URL
+
+    # verify signature
+    string_to_sign = Utils::Formater.params_to_string(data)
+    Utils::Signature.verify!(string_to_sign, PayOS.configuration.checksum_secret, data["signature"])
+  end
 end
