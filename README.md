@@ -1,6 +1,6 @@
 # PayOS
 
-PayOS is a Ruby library that provides a simple and elegant way to integrate with the PayOS payment gateway services.
+PayOS is a Ruby library that provides a simple and elegant way to integrate with the [PayOS payment gateway services](https://payos.vn/docs/).
 
 ## Installation
 
@@ -56,6 +56,14 @@ To cancel a payment:
 
 ```ruby
 PayOS.cancel_payment('4573928465')
+```
+
+### Confirming a Webhook
+
+To confirm a webhook:
+
+```ruby
+PayOS.confirm_webhook('https://example.com/webhook')
 ```
 
 ## Development
