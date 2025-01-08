@@ -20,17 +20,17 @@ RSpec.describe PayOS::Utils::Signature do
 
     context "when signature is invalid" do
       it "raises SignatureVerificationError" do
-        expect {
+        expect do
           described_class.verify!(data, secret_key, "invalid_signature")
-        }.to raise_error(PayOS::SignatureVerificationError, "Invalid signature!")
+        end.to raise_error(PayOS::SignatureVerificationError, "Invalid signature!")
       end
     end
 
     context "when signature is nil" do
       it "raises SignatureVerificationError" do
-        expect {
+        expect do
           described_class.verify!(data, secret_key, nil)
-        }.to raise_error(PayOS::SignatureVerificationError, "Invalid signature!")
+        end.to raise_error(PayOS::SignatureVerificationError, "Invalid signature!")
       end
     end
   end
