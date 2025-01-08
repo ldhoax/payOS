@@ -2,6 +2,7 @@
 
 require_relative "../constants"
 require_relative "../utils/signature"
+require_relative "../utils/formater"
 
 module PayOS
   module Services
