@@ -5,4 +5,5 @@ module PayOS
   class SignatureVerificationError < Error; end
   class RateLimitError < Error; end
   class APIError < Error; end
+  class ForbiddenError < Error; end
 end

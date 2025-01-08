@@ -9,6 +9,8 @@ require_relative "payOS/errors"
 require_relative "payOS/models/response"
 require_relative "payOS/client"
 require_relative "payOS/services/payment_url"
+require_relative "payOS/utils/formater"
+require_relative "payOS/utils/signature"
 
 module PayOS
   class Error < StandardError; end
@@ -41,5 +43,17 @@ module PayOS
 
   def self.cancel_payment(payment_url_id)
     payment_service.cancel(payment_url_id)
+  end
+
+  def self.confirm_webhook(webhook_url)
+    payment_service.confirm_webhook(webhook_url)
+  end
+
+  def self.verify_request!(data, signature)
+    # raise ForbiddenError if request_source != PayOS::BASE_URL
+
+    # verify signature
+    string_to_sign = Utils::Formater.webhook_data_to_string(data)
+    Utils::Signature.verify!(string_to_sign, PayOS.configuration.checksum_secret, signature)
   end
 end
