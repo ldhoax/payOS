@@ -101,4 +101,15 @@ RSpec.describe PayOS::Services::PaymentUrl do
       expect(result["signature"]).to eq(expected_signature)
     end
   end
+
+  describe "#confirm_webhook" do
+    it "confirms webhook URL" do
+      webhook_url = "https://example.com/webhook"
+      expect(client).to receive(:post).with(
+        PayOS::CONFIRM_WEBHOOK_PATH,
+        { "webhookUrl" => webhook_url }
+      )
+      service.confirm_webhook(webhook_url)
+    end
+  end
 end

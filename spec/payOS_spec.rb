@@ -43,4 +43,30 @@ RSpec.describe PayOS do
       PayOS.cancel_payment(payment_url_id)
     end
   end
+
+  describe ".confirm_webhook" do
+    it "confirms a webhook URL" do
+      webhook_url = "http://example.com/webhook"
+
+      expect(PayOS.payment_service).to receive(:confirm_webhook).with(webhook_url)
+      PayOS.confirm_webhook(webhook_url)
+    end
+  end
+
+  describe ".verify_request!" do
+    it "verifies webhook data signature" do
+      data = { "orderId" => "123", "amount" => 1000 }
+      signature = "test_signature"
+      string_to_sign = "amount=1000&orderId=123"
+
+      expect(PayOS::Utils::Formater).to receive(:webhook_data_to_string)
+        .with(data)
+        .and_return(string_to_sign)
+
+      expect(PayOS::Utils::Signature).to receive(:verify!)
+        .with(string_to_sign, PayOS.configuration.checksum_secret, signature)
+
+      PayOS.verify_request!(data, signature)
+    end
+  end
 end
