@@ -32,8 +32,7 @@ module PayOS
       end
 
       def self.convert_data_to_query_str(object)
-        object.reject { |_, v| v.nil? }
-              .map do |key, value|
+        object.map do |key, value|
                 camel_key = snake_to_camel(key)
                 formatted_value = case value
                                   when Array
