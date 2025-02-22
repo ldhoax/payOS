@@ -45,7 +45,7 @@ RSpec.describe PayOS::Utils::Formater do
       }
 
       expect(described_class.webhook_data_to_string(data))
-        .to eq("amount=100000&emptyThing=&method=virtual_account&orderCode=3982&status=success")
+        .to eq("amount=100000&emptyThing=&method=virtual_account&nilThing=&orderCode=3982&status=success")
     end
   end
 
@@ -103,8 +103,8 @@ RSpec.describe PayOS::Utils::Formater do
       end
     end
 
-    context "with nil values" do
-      it "excludes nil values from the query string" do
+    context "with nil or special values" do
+      it "converts nil, undefined, and null values to empty strings" do
         data = {
           "name" => "John",
           "age" => nil,
@@ -113,7 +113,7 @@ RSpec.describe PayOS::Utils::Formater do
         }
 
         expect(described_class.convert_data_to_query_str(data))
-          .to eq("name=John&email=&phone=")
+          .to eq("name=John&age=&email=&phone=")
       end
     end
   end
