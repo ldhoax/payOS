@@ -32,20 +32,19 @@ module PayOS
       end
 
       def self.convert_data_to_query_str(object)
-        object.reject { |_, v| v.nil? }
-              .map do |key, value|
-                camel_key = snake_to_camel(key)
-                formatted_value = case value
-                                  when Array
-                                    JSON.generate(value.map { |val| sort_obj_data_by_key(val) })
-                                  when nil, "undefined", "null"
-                                    ""
-                                  else
-                                    value.to_s
-                                  end
+        object.map do |key, value|
+          camel_key = snake_to_camel(key)
+          formatted_value = case value
+                            when Array
+                              JSON.generate(value.map { |val| sort_obj_data_by_key(val) })
+                            when nil, "undefined", "null"
+                              ""
+                            else
+                              value.to_s
+                            end
 
-                "#{camel_key}=#{formatted_value}"
-              end
+          "#{camel_key}=#{formatted_value}"
+        end
               .join("&")
       end
     end
