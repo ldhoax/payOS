@@ -13,7 +13,13 @@ module PayOS
       end
 
       def self.params_to_string(params)
-        params.reject { |k, _| k == "signature" }.sort_by { |key, _| key.to_s }.map { |k, v| "#{k}=#{v}" }.join("&")
+        amount = params["amount"]
+        cancel_url = params["cancelUrl"] 
+        description = params["description"]
+        order_code = params["orderCode"]
+        return_url = params["returnUrl"]
+
+        "amount=#{amount}&cancelUrl=#{cancel_url}&description=#{description}&orderCode=#{order_code}&returnUrl=#{return_url}"
       end
 
       def self.webhook_data_to_string(data)
@@ -35,17 +41,17 @@ module PayOS
         object.map do |key, value|
           camel_key = snake_to_camel(key)
           formatted_value = case value
-                            when Array
-                              JSON.generate(value.map { |val| sort_obj_data_by_key(val) })
-                            when nil, "undefined", "null"
-                              ""
-                            else
-                              value.to_s
-                            end
+                          when Array
+                            JSON.generate(value.map { |val| sort_obj_data_by_key(val) })
+                          when nil, "undefined", "null"
+                            ""
+                          else
+                            value.to_s
+                          end
 
           "#{camel_key}=#{formatted_value}"
         end
-              .join("&")
+        .join("&")
       end
     end
   end
