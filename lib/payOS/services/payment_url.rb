@@ -31,10 +31,12 @@ module PayOS
 
       def params_with_signature(params)
         formatted_params = Utils::Formater.format_params(params)
+        puts "formatted_params: #{formatted_params}"
         string_to_sign = Utils::Formater.params_to_string(formatted_params)
-
+        puts "string_to_sign: #{string_to_sign}"
         formatted_params["signature"] = Utils::Signature.generate(string_to_sign, PayOS.configuration.checksum_secret)
-
+        puts "checksum_secret: #{PayOS.configuration.checksum_secret}"
+        puts "formatted_params: #{formatted_params}"
         formatted_params
       end
     end
