@@ -3,7 +3,6 @@
 require "spec_helper"
 
 RSpec.describe PayOS::Services::PaymentUrl do
-  let(:client) { double("client") }
   let(:config) do
     PayOS::Configuration.new.tap do |c|
       c.client_id = "test_client_id"
@@ -12,11 +11,8 @@ RSpec.describe PayOS::Services::PaymentUrl do
       c.partner_code = "test_partner"
     end
   end
+  let(:client) { double("client", config: config) }
   let(:service) { described_class.new(client) }
-
-  before do
-    allow(PayOS).to receive(:configuration).and_return(config)
-  end
 
   describe "#create" do
     let(:valid_params) do
@@ -96,7 +92,7 @@ RSpec.describe PayOS::Services::PaymentUrl do
 
       # Verify signature is generated from sorted params
       sorted_params = "amount=1000&cancelUrl=http://example.com&description=Test payment&orderCode=123&returnUrl=http://example.com"
-      expected_signature = PayOS::Utils::Signature.generate(sorted_params, "test_secret")
+      expected_signature = PayOS::Utils::Signature.generate(sorted_params, config.checksum_secret)
 
       expect(result["signature"]).to eq(expected_signature)
     end
@@ -106,7 +102,7 @@ RSpec.describe PayOS::Services::PaymentUrl do
     it "confirms webhook URL" do
       webhook_url = "https://example.com/webhook"
       expect(client).to receive(:post).with(
-        PayOS::CONFIRM_WEBHOOK_PATH,
+        "#{PayOS::API_VERSION}/#{PayOS::CONFIRM_WEBHOOK_PATH}",
         { "webhookUrl" => webhook_url }
       )
       service.confirm_webhook(webhook_url)

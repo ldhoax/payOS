@@ -2,6 +2,8 @@
 
 module PayOS
   class Client
+    attr_reader :config
+
     def initialize(config)
       @config = config
       @http_client = Faraday.new(url: BASE_URL) do |faraday|

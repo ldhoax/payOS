@@ -13,8 +13,9 @@ module PayOS
       end
 
       def self.params_to_string(params)
+        puts "params: #{params}"
         amount = params["amount"]
-        cancel_url = params["cancelUrl"] 
+        cancel_url = params["cancelUrl"]
         description = params["description"]
         order_code = params["orderCode"]
         return_url = params["returnUrl"]
